@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: dim_customers
+    columns:
+      - name: customer_id
+        description: The customer unique identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: email
+        description: The customer unique email.
+        data_tests:
+          - not_null
+      - name: city
+        description: The customer city.
+        data_tests:
+          - not_null
+      - name: country
+        description: The customer country.
+        data_tests:
+          - not_null
+  - name: dim_products
+    columns:
+      - name: product_id
+        description: The product unique identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: The order unique identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: order_item_id
+        description: The order item unique identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: product_price
+        description: The product price value.
+        data_tests:
+          - not_null
