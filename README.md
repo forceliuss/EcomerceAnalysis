@@ -2,4 +2,6 @@
 
 ### Database Strcture
 
+![alt text](images/data-structure.png)
+
 ### Lineage Graph
