@@ -9,6 +9,10 @@ setup(
         "dagster-cloud",
         "dagster-dbt",
         "dagster-airbyte",
+        "streamlit",
+        "plotly-express"
+        "pandas"
+        "numpy"
     ],
     extras_require={"dev": ["dagit", "pytest"]},
 )

@@ -1,0 +1,44 @@
+
+#MainMenu {visibility:hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+
+/* div[data-testid="stSidebarContent"] {
+    background-color: #d0d0d0;
+}
+
+div[data-testid="stAppViewContainer"] {
+    background-color: whitesmoke;
+}
+
+a[data-testid="stSidebarNavLink"] {
+    background-color: white;
+}
+
+a[data-testid="stSidebarNavLink"]:hover {
+    background-color: #8a2be2;
+}
+
+a[data-testid="stSidebarNavLink"] > span{
+    color: black;
+}
+
+a[data-testid="stSidebarNavLink"] > span:hover{
+    color:white;
+}
+
+span[data-testid="stIconMaterial"]:active {
+    color: blueviolet;
+}
+
+
+button[data-testid="baseButton-headerNoPadding"] > svg {
+    color: blueviolet;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: medium;
+    color: black;
+} */
+
