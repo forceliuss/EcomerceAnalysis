@@ -10,7 +10,10 @@ sources:
         period: hour
     loaded_at_field: "_airbyte_normalized_at"
     tables:
+      - name: category_names
       - name: customers
-      - name: orders
-      - name: products
       - name: order_items
+      - name: orders
+      - name: payments
+      - name: products
+      - name: reviews

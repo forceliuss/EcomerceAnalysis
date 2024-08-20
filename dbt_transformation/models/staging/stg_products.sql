@@ -1,9 +1,7 @@
-select
-    product_id,
-    name as product_name,
-    collection,
-    category,
-    price,
-    availability,
-    rating,
-from {{ source("raw_data", "products") }}
+SELECT
+    PRODUCT_ID,
+    PRODUCT_CATEGORY_NAME,
+    PRODUCT_WEIGHT_G
+FROM
+    {{ source("raw_data",
+    "products") }}

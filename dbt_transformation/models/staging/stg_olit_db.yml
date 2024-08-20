@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: stg_customers
+    columns:
+      - name: customer_id
+        description: The customer unique identifier.
+        data_tests:
+          - unique
+          - not_null
+  - name: stg_orders
+    columns:
+      - name: order_id
+        description: The order identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: order_status
+        description: The order status. Updates evertime that a change in the order happens.
+        data_tests:
+          - accepted_values:
+              values:
+                - delivered
+                - approved
+                - canceled
+                - created
+                - invoiced
+                - processing
+                - shipped
+                - unavailable
+      - name: customer_id
+        description: The customer unique identifier.
+        data_tests:
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+  - name: stg_products
+    columns:
+      - name: product_id
+        description: The product identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: product_category_name
+        description: The product category name.
+        data_tests:
+          - not_null
+  - name: stg_reviews
+    columns:
+      - name: order_id
+        description: The order identifier.
+        data_tests:
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+      - name: review_score
+        description: The order review score.
+        data_tests:
+          - not_null

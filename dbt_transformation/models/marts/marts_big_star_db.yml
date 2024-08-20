@@ -8,16 +8,16 @@ models:
         data_tests:
           - unique
           - not_null
-      - name: email
-        description: The customer unique email.
-        data_tests:
-          - not_null
       - name: city
         description: The customer city.
         data_tests:
           - not_null
-      - name: country
-        description: The customer country.
+      - name: state
+        description: The customer state.
+        data_tests:
+          - not_null
+      - name: zip_code_prefix
+        description: The customer zip code.
         data_tests:
           - not_null
   - name: dim_products
@@ -27,17 +27,37 @@ models:
         data_tests:
           - unique
           - not_null
+      - name: product_category_name
+        description: The order category name.
+        data_tests:
+          - not_null
+      - name: product_weight_g
+        description: The product weight.
+        data_tests:
+          - not_null
+  - name: dim_orders
+    columns:
       - name: order_id
         description: The order unique identifier.
         data_tests:
           - unique
           - not_null
-      - name: order_item_id
-        description: The order item unique identifier.
+      - name: customer_id
+        description: The customer unique identifier.
         data_tests:
-          - unique
-          - not_null
-      - name: product_price
-        description: The product price value.
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+      - name: order_status
+        description: The order status. Updates evertime that a change in the order happens.
         data_tests:
-          - not_null
+          - accepted_values:
+              values:
+                - delivered
+                - approved
+                - canceled
+                - created
+                - invoiced
+                - processing
+                - shipped
+                - unavailable
