@@ -1,8 +1,25 @@
 import streamlit as st
+from google.oauth2 import service_account
 from google.cloud import bigquery
 import pandas as pd
 import numpy as np
 import plotly.express as px
+
+# Create API client.
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
+)
+client = bigquery.Client(credentials=credentials)
+
+# Perform query.
+# Uses st.cache_data to only rerun when the query changes or after 10 min.
+@st.cache_data(ttl=600)
+def run_query(query):
+    query_job = client.query(query)
+    rows_raw = query_job.result()
+    # Convert to list of dicts. Required for st.cache_data to hash the return value.
+    rows = [dict(row) for row in rows_raw]
+    return rows
 
 def home():
     #Sidebar
@@ -10,13 +27,15 @@ def home():
 
 def dashboard():
     #Importing Files
-    df_payments = pd.read_csv("./data/raw/olist_order_payments_dataset.csv", sep=",", usecols=['order_id','payment_value'])
+    """ df_payments = pd.read_csv("./data/raw/order_payments_dataset.csv", sep=",", usecols=['order_id','payment_value'])
     df_orders = pd.read_csv("./data/raw/orders_dataset.csv", sep=",", usecols=['order_id','order_approved_at'])
 
     df_merged = df_orders.merge(df_payments, how="inner", on='order_id')
     df_merged['order_approved_at'] = pd.to_datetime(df_merged['order_approved_at']).dt.floor('D')
-    df_merged['order_approved_at'] = df_merged['order_approved_at']
-    df_sum = df_merged.groupby('order_approved_at')[['payment_value']].sum()
+    df_merged['order_approved_at'] = df_merged['order_approved_at'] """
+    df_merged = pd.DataFrame(run_query("SELECT order_approved_at, payment_value FROM `olit-ecommerce.transformed_data.dim_orders`;"))\
+        .sort_values(by='order_approved_at')
+    df_merged['reveneu'] = df_merged['payment_value'].cumsum()
 
     st.title("Sales Overview")
 
@@ -39,8 +58,14 @@ def dashboard():
 
     with sec2:
         sec2.subheader("Average Earnings")
-        fig = px.line(df_sum, x=df_sum.index, y="payment_value")
+        fig = px.line(df_merged, x="order_approved_at", y="reveneu")
         st.plotly_chart(fig, key="iris")
+
+    sec3 = st.container()
+    
+    with sec3:
+        df = run_query("SELECT * FROM `olit-ecommerce.transformed_data.dim_customers` LIMIT 10;")
+        st.dataframe(df,use_container_width=True, hide_index=True)
 
 def main():
 

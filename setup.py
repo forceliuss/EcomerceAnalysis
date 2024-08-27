@@ -13,6 +13,7 @@ setup(
         "plotly-express"
         "pandas"
         "numpy"
+        "google-cloud-bigquery"
     ],
     extras_require={"dev": ["dagit", "pytest"]},
 )
